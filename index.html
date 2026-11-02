@@ -166,6 +166,12 @@ body{min-height:100vh;overflow-x:hidden}
 .gate-banner{width:100%;margin:0 auto 22px;position:relative;z-index:1;text-align:center}.gate-banner img{display:block;width:100%;height:auto;max-height:330px;object-fit:contain;border-radius:18px}@media(max-width:700px){.gate-banner{margin-bottom:16px}.gate-banner img{max-height:220px;border-radius:14px}.gate-panel{padding:14px;border-radius:22px}.grade-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grade-choice{min-height:140px}}
 .gate-brand{display:flex;align-items:center;justify-content:center;gap:18px;text-align:left;margin-bottom:20px}.gate-avatar{width:84px;height:84px;display:grid;place-items:center;border-radius:28px;background:#f9e6e6;font-size:46px;box-shadow:0 8px 20px #775d4b12}.gate-brand h1{margin:0;color:#6d453c;font-size:clamp(1.25rem,3vw,2rem)}.gate-brand p{margin:3px 0 0;color:#85665a}.gate-welcome{text-align:center;padding:14px 8px 22px}.gate-welcome .eyebrow{color:#a66d6b;font-weight:750}.gate-welcome h2{margin:4px 0;color:#315a43;font-size:clamp(1.5rem,4vw,2.5rem)}.gate-welcome p{margin:0;color:#87796d}.grade-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.grade-choice{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid #ffffff;border-radius:24px;box-shadow:0 8px 20px #654b3914;color:#4e4a43!important;transition:transform .18s,box-shadow .18s;padding:16px}.grade-choice:hover{transform:translateY(-4px);box-shadow:0 14px 28px #654b3922}.grade-choice .grade-emoji{font-size:42px}.grade-choice strong{font-size:2rem;line-height:1.1}.grade-choice span:last-child{font-size:.9rem;font-weight:600}.grade-choice.g3{background:linear-gradient(145deg,#ffe8ed,#fff6f5)}.grade-choice.g3 strong{color:#a14d64}.grade-choice.g4{background:linear-gradient(145deg,#fff0d9,#fffaf0)}.grade-choice.g4 strong{color:#a66a31}.grade-choice.g5{background:linear-gradient(145deg,#e7f1df,#f7fbf0)}.grade-choice.g5 strong{color:#497052}.grade-choice.g6{background:linear-gradient(145deg,#eee6fb,#fbf8ff)}.grade-choice.g6 strong{color:#76589a}.gate-foot{text-align:center;color:#8b7b70;margin:22px 0 0;font-size:.9rem}.class-switch{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.class-switch .change-grade{margin-left:auto}
 @media(max-width:700px){.class-gate{padding:10px;align-items:flex-start}.gate-panel{border-radius:24px;padding:18px 14px;margin:auto}.gate-brand{gap:10px}.gate-avatar{width:62px;height:62px;border-radius:20px;font-size:34px}.grade-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grade-choice{min-height:140px;padding:12px}.grade-choice .grade-emoji{font-size:32px}.grade-choice strong{font-size:1.7rem}}
+.gate-main-link-wrap{display:flex;flex-direction:column;align-items:center;gap:7px;margin:22px auto 2px}
+.gate-main-link{border:1px solid #e7c7b9!important;border-radius:999px!important;background:linear-gradient(135deg,#fff0e9,#f8e5e5)!important;color:#774b45!important;padding:12px 24px!important;font-weight:800!important;font-size:1rem!important;box-shadow:0 5px 14px rgba(125,77,66,.10);cursor:pointer}
+.gate-main-link:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(125,77,66,.15)}
+.gate-main-link-note{margin:0;text-align:center;color:#94756b;font-size:.88rem}
+@media(max-width:700px){.gate-main-link-wrap{margin-top:16px}.gate-main-link{width:100%;max-width:320px}.gate-main-link-note{font-size:.78rem}}
+
 @media print{.class-gate{display:none!important}}
 
 
@@ -351,6 +357,13 @@ html{font-synthesis:weight}
 }
 
 </style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MINTRA THAI CLASS">
+
 </head>
 <body>
 <div class="wrap">
@@ -381,6 +394,10 @@ html{font-synthesis:weight}
    <button class="grade-choice g4" data-grade="ป.4"><span class="grade-art-mark" aria-hidden="true">✿</span><strong>ป.4</strong><span>เข้าสู่ห้องเรียน</span></button>
    <button class="grade-choice g5" data-grade="ป.5"><span class="grade-art-mark" aria-hidden="true">✿</span><strong>ป.5</strong><span>เข้าสู่ห้องเรียน</span></button>
    <button class="grade-choice g6" data-grade="ป.6"><span class="grade-art-mark" aria-hidden="true">✿</span><strong>ป.6</strong><span>เข้าสู่ห้องเรียน</span></button>
+  </div>
+  <div class="gate-main-link-wrap">
+   <button type="button" class="gate-main-link" id="openMainProgram">🏠 หน้าหลักโปรแกรม</button>
+   <p class="gate-main-link-note">เข้าสู่หน้าศูนย์กลาง เพื่อจัดการข้อมูลและสำรองข้อมูลทุกชั้นเรียน</p>
   </div>
 
  </section>
@@ -424,6 +441,11 @@ function enterGrade(grade){if(!CLASS_LIST.includes(grade))return;if(grade!==acti
 function showClassGate(){const gate=document.getElementById('classGate');if(gate){gate.classList.remove('hidden-gate');gate.querySelector('[data-grade="'+activeClass+'"]')?.focus()}}
 document.querySelectorAll('#classGate [data-grade]').forEach(b=>b.addEventListener('click',()=>enterGrade(b.dataset.grade)));
 document.getElementById('backToClassHome')?.addEventListener('click',showClassGate);
+document.getElementById('openMainProgram')?.addEventListener('click',()=>{
+ const gate=document.getElementById('classGate');if(gate)gate.classList.add('hidden-gate');
+ setPage('home');window.scrollTo(0,0);
+});
+
 document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)setPage(b.dataset.page)});
 document.getElementById('quickBackup').onclick=backup;
 document.getElementById('quickAddStudent').onclick=()=>{setPage('students');setTimeout(()=>document.getElementById('studentName')?.focus(),50)};
@@ -438,7 +460,7 @@ function homePage(){
  const recent=[...state.assignments].slice(-4).reverse();
  const gradeCards=CLASS_LIST.map(cls=>{const d=readClassData(cls);return `<button class="grade-center-card ${cls===activeClass?'is-current':''}" data-center-grade="${cls}"><span class="grade-center-icon">${cls===activeClass?'✓':'✿'}</span><strong>${cls}</strong><span>นักเรียน ${d.students.length} คน</span><small>${cls===activeClass?'กำลังใช้งาน':'คลิกเพื่อเข้าชั้นเรียน'}</small></button>`}).join('');
  return `<div class="grid">
- ${card('🏡 ศูนย์กลางทุกชั้นเรียน',`<p class="small-note">เลือกชั้นเรียนได้จากหน้านี้ทุกเวลา และสำรองข้อมูลของทุกชั้นได้จากปุ่มเดียว</p><div class="grade-center-grid">${gradeCards}</div><div class="row" style="margin-top:12px;flex-wrap:wrap"><button id="homeBackupAll">⬇️ สำรองข้อมูลทุกชั้นในไฟล์เดียว</button><button class="secondary" id="homeRestoreAll">⬆️ กู้คืนข้อมูลทุกชั้น</button></div>`,'span-12')}
+ ${card('🏡 ศูนย์กลางทุกชั้นเรียน',`<p class="small-note">เลือกชั้นเรียน จัดการรายชื่อนักเรียน และสำรองข้อมูลทุกชั้นได้จากจุดเดียว</p><div class="grade-center-grid">${gradeCards}</div><div class="row" style="margin-top:12px;flex-wrap:wrap"><button id="homeManageStudents">🌱 จัดการรายชื่อนักเรียน</button><button id="homeBackupAll">⬇️ สำรองข้อมูลทุกชั้นในไฟล์เดียว</button><button class="secondary" id="homeRestoreAll">⬆️ กู้คืนข้อมูลทุกชั้น</button></div><section id="homeStudentManager" class="home-student-manager hidden"><h3>➕ เพิ่มนักเรียนจากหน้าหลัก</h3><p class="small-note">เลือกชั้นเรียนก่อนบันทึก ชื่อจะถูกเพิ่มเฉพาะชั้นที่เลือกและเชื่อมกับหน้ารายชื่อนักเรียนเดิม</p><form id="homeStudentForm"><div class="fields"><div class="field"><label for="homeStudentGrade">ชั้นเรียน</label><select id="homeStudentGrade">${CLASS_LIST.map(c=>`<option value="${c}" ${c===activeClass?'selected':''}>${c}</option>`).join('')}</select></div><div class="field"><label for="homeStudentNo">เลขที่ (ถ้ามี)</label><input id="homeStudentNo" type="number" min="1" placeholder="เช่น 1"></div><div class="field"><label for="homeStudentName">ชื่อ-นามสกุล</label><input id="homeStudentName" type="text" required maxlength="120" placeholder="กรอกชื่อ-นามสกุลนักเรียน"></div></div><div class="row" style="margin-top:12px"><button type="submit">💾 บันทึกนักเรียน</button><button type="button" class="secondary" id="homeStudentView">ดูรายชื่อชั้นนี้</button><button type="button" class="secondary" id="homeStudentCancel">ปิด</button></div></form></section>`,'span-12')}
  ${card(`<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-size:1.35rem;color:#35583c">👩🏻‍🏫 สวัสดีค่ะ ${esc(state.settings.teacher||'ครูมินตรา')} ♡</div><div class="small-note">“ภาษาไทย...สร้างคน สร้างอนาคต”</div></div><div class="field"><label for="homeDate">📅 วันที่</label><input type="date" id="homeDate" value="${selectedDate}"></div></div>`,`
  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-top:8px">
  <button id="goStudents" style="background:#f9e8eb;color:#563d43;padding:17px 12px;min-height:125px"><div class="home-tile-art" aria-hidden="true"><span class="tile-symbol">♧</span></div><div style="font-size:1.02rem">รายชื่อนักเรียน</div><div style="font-size:.82rem;font-weight:500">จัดการข้อมูลนักเรียน</div></button>
@@ -545,6 +567,11 @@ function bindPage(){
  $('goAssignments')?.addEventListener('click',()=>setPage('assignments'));
  $('goGradebook')?.addEventListener('click',()=>setPage('gradebook'));
  $('homeAddStudent')?.addEventListener('click',()=>setPage('students'));
+ $('homeManageStudents')?.addEventListener('click',()=>{const panel=$('homeStudentManager');panel?.classList.toggle('hidden');if(panel&&!panel.classList.contains('hidden'))$('homeStudentName')?.focus()});
+ $('homeStudentCancel')?.addEventListener('click',()=> $('homeStudentManager')?.classList.add('hidden'));
+ $('homeStudentGrade')?.addEventListener('change',()=>{const g=$('homeStudentGrade').value;const d=readClassData(g);const n=$('homeStudentNo');if(n)n.placeholder='เลขถัดไป '+(d.students.length+1)});
+ $('homeStudentView')?.addEventListener('click',()=>{const g=$('homeStudentGrade')?.value;if(!g)return;if(g!==activeClass)switchClass(g);setPage('students');});
+ $('homeStudentForm')?.addEventListener('submit',e=>{e.preventDefault();const g=$('homeStudentGrade')?.value,name=$('homeStudentName')?.value.trim(),noInput=$('homeStudentNo')?.value.trim();if(!CLASS_LIST.includes(g)||!name){toast('กรุณาเลือกชั้นเรียนและกรอกชื่อนักเรียน');return;}const d=readClassData(g);const duplicate=d.students.some(st=>String(st.name||'').trim().toLocaleLowerCase('th')===name.toLocaleLowerCase('th'));if(duplicate&&!confirm('พบชื่อนักเรียนซ้ำใน '+g+' ต้องการเพิ่มชื่อนี้อีกหรือไม่?'))return;const no=noInput||String(Math.max(0,...d.students.map(st=>Number(st.no)||0))+1);d.students.push({id:uid(),no,name,code:''});d.settings={...d.settings,className:g};try{localStorage.setItem(keyForClass(g),JSON.stringify(d));if(g===activeClass){state=load()}render();toast('เพิ่มนักเรียนใน '+g+' สำเร็จแล้ว 🌱');const panel=$('homeStudentManager');panel?.classList.remove('hidden');const f=$('homeStudentForm');f?.reset();const grade=$('homeStudentGrade');if(grade)grade.value=g;const ni=$('homeStudentNo');if(ni)ni.placeholder='เลขถัดไป '+(d.students.length+1);$('homeStudentName')?.focus();}catch(err){toast('บันทึกไม่สำเร็จ กรุณาสำรองข้อมูลและตรวจสอบพื้นที่จัดเก็บ')}});
  $('homeAddAssignment')?.addEventListener('click',()=>setPage('assignments'));
  $('homeBackup')?.addEventListener('click',backup);$('homeBackupAll')?.addEventListener('click',backup);$('homeRestoreAll')?.addEventListener('click',()=>$('restoreFile').click());document.querySelectorAll('[data-center-grade]').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.centerGrade;switchClass(g);showClassGate();enterGrade(g)}));
  $('studentForm')?.addEventListener('submit',e=>{e.preventDefault();const name=$('studentName').value.trim();if(!name)return;state.students.push({id:uid(),no:$('studentNo').value.trim()||String(state.students.length+1),name,code:$('studentCode').value.trim()});save();toast('เพิ่มรายชื่อนักเรียนแล้ว 🌱');render()});
@@ -602,6 +629,12 @@ function exportReportCSV(){const ss=studentsSorted(),as=state.assignments,max=as
 render();
 })();
 </script>
+
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('./service-worker.js').catch(function (err) { console.warn('Offline setup could not be completed:', err); }); });
+}
+</script>
 </body>
 </html>
 
@@ -623,4 +656,8 @@ render();
 .grade-center-card:nth-child(2){background:linear-gradient(145deg,#fff2dc,#fffaf0);color:#98632d}.grade-center-card:nth-child(3){background:linear-gradient(145deg,#eaf4e5,#f8fff4);color:#456f50}.grade-center-card:nth-child(4){background:linear-gradient(145deg,#f0e8fb,#fff8ff);color:#72569a}
 .grade-center-card.is-current{outline:3px solid #d68b9a;outline-offset:1px}.grade-center-card strong{font-size:1.5rem}.grade-center-card small{font-size:.78rem;opacity:.85}.grade-center-icon{display:grid;place-items:center;width:35px;height:35px;border-radius:12px;background:#ffffffb8;font-size:1.2rem}
 @media(max-width:650px){.grade-center-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grade-center-card{min-height:110px;padding:10px}}
+</style>
+
+<style>
+.home-student-manager{margin-top:16px;padding:16px;border:1px solid #e4d8e7;border-radius:18px;background:linear-gradient(135deg,#fff6f8,#f7f3ff)}.home-student-manager h3{margin:0 0 8px;color:#755a83;font-size:1.08rem}.home-student-manager .fields{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:650px){.home-student-manager .fields{grid-template-columns:1fr}.home-student-manager button{min-height:44px}}
 </style>
