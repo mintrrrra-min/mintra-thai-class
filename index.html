@@ -586,7 +586,26 @@ function bindPage(){
  $('attendanceFilter')?.addEventListener('change',e=>{attendanceFilter=e.target.value;render()});
  $('allPresent')?.addEventListener('click',()=>{const [y,m]=selectedDate.split('-').map(Number);const ds=datesBetween(dateISO(y,m,1),dateISO(y,m,new Date(y,m,0).getDate())).filter(isSchoolDay);if(!confirm('กำหนดนักเรียนทุกคนเป็น “มา” ในวันเรียนทั้งหมดของเดือนนี้หรือไม่? สถานะที่มีอยู่จะถูกแทนที่'))return;ds.forEach(d=>{state.attendance[d]=state.attendance[d]||{};studentsSorted().forEach(st=>state.attendance[d][st.id]='present')});save();render();toast('บันทึกสถานะ “มา” ให้วันเรียนทั้งเดือนแล้ว')});
  $('saveAttendance')?.addEventListener('click',()=>{const day={...(state.attendance[selectedDate]||{})};document.querySelectorAll('.attendanceStatus').forEach(el=>day[el.dataset.id]=el.value);state.attendance[selectedDate]=day;save();toast('บันทึกการเช็กชื่อแล้ว 🌿');render()});
- document.querySelectorAll('.month-att-cell').forEach(el=>el.addEventListener('click',()=>{const d=el.dataset.date,sid=el.dataset.sid;state.attendance[d]=state.attendance[d]||{};const order=['','present','late','leave','absent'];const cur=state.attendance[d][sid]||'';state.attendance[d][sid]=order[(order.indexOf(cur)+1)%order.length];if(!state.attendance[d][sid])delete state.attendance[d][sid];save();render()}));
+ document.querySelectorAll('.month-att-cell').forEach(el=>el.addEventListener('click',()=>{
+  const d=el.dataset.date,sid=el.dataset.sid;
+  // จดจำตำแหน่งตารางก่อน render เพื่อไม่ให้เลื่อนกลับไปวันที่ 1 ทุกครั้ง
+  const matrixWrap=document.querySelector('.month-matrix-wrap');
+  const savedLeft=matrixWrap?matrixWrap.scrollLeft:0;
+  const savedTop=matrixWrap?matrixWrap.scrollTop:0;
+  const pageY=window.scrollY;
+  state.attendance[d]=state.attendance[d]||{};
+  const order=['','present','late','leave','absent'];
+  const cur=state.attendance[d][sid]||'';
+  state.attendance[d][sid]=order[(order.indexOf(cur)+1)%order.length];
+  if(!state.attendance[d][sid])delete state.attendance[d][sid];
+  save();
+  render();
+  requestAnimationFrame(()=>{
+    const nextWrap=document.querySelector('.month-matrix-wrap');
+    if(nextWrap){nextWrap.scrollLeft=savedLeft;nextWrap.scrollTop=savedTop;}
+    window.scrollTo({top:pageY,left:0,behavior:'instant'});
+  });
+}));
  $('printAttendanceMatrix')?.addEventListener('click',()=>printMonthlyMatrix(selectedDate.slice(0,7)));
  $('attendanceCSV')?.addEventListener('click',()=>{const [y,m]=selectedDate.split('-').map(Number),ds=datesBetween(dateISO(y,m,1),dateISO(y,m,new Date(y,m,0).getDate()));downloadCSV(`attendance_${activeClass.replace('/','_')}_${y}-${String(m).padStart(2,'0')}.csv`,['วันที่','เลขที่','ชื่อ-สกุล','สถานะ','ประเภทวัน'],ds.flatMap(d=>studentsSorted().map(st=>[d,st.no,st.name,state.attendance[d]?.[st.id]?statusLabels[state.attendance[d][st.id]]:'ยังไม่บันทึก',calendarStatus(d).label])))});
  $('assignmentForm')?.addEventListener('submit',e=>{e.preventDefault();const a={id:uid(),title:$('assignmentTitle').value.trim(),category:$('assignmentCategory').value,max:Number($('assignmentMax').value),due:$('assignmentDue').value,note:$('assignmentWeight').value.trim(),created:today()};if(!a.title||!Number.isFinite(a.max)||a.max<0){toast('กรุณาตรวจชื่องานและคะแนนเต็ม');return}state.assignments.push(a);save();render();toast('บันทึกงานแล้ว 📝')});
